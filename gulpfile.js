@@ -78,7 +78,6 @@ gulp.task('style', () => {
             })
         }))
         .pipe(stylus({
-            compress: false,
             'include css': true
         }))
         .pipe(csso({
@@ -122,11 +121,14 @@ gulp.task('img', () => {
 });
 
 gulp.task('watch', () => {
-    gulp.watch('./app/**/*.js', ['js']);
-    gulp.watch('./app/**/*.styl' ['style']);
-    gulp.watch('./app/**/*.jade', ['jade']);
+    gulp.watch('./app/js/**/*.js', ['js']);
+    gulp.watch('./app/jade/**/*.jade', ['jade']);
+    gulp.watch('./app/style/**/*.styl', ['style']);
     gulp.watch('./app/webpack/**/*.*', ['webpack']);
-    gulp.watch('./app/**/*.*').on('change', browserSync.reload);
+    gulp.watch([
+        './app/*.html',
+        './app/.tmp/**/*.*'
+    ]).on('change', browserSync.reload);
 });
 
 gulp.task('default', ['clean', 'style', 'js', 'webpack', 'jade', 'browser-sync', 'watch']);
